@@ -1,0 +1,508 @@
+/*-----------------------------------*/
+/* estilos generales */
+/*-----------------------------------*/
+:root {
+    --separation: 30px;
+    --separation-small: 10px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+    font-size: 20px;
+}
+
+html {
+    position: relative;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    background: #ccc;
+}
+
+/*-----------------------------------*/
+/* Estilos de la app */
+/*-----------------------------------*/
+.app {
+    display: block;
+    width: 100%;
+    max-width: 1270px;
+    background: #fff;
+    padding: var(--separation-small);
+    margin: 40px auto;
+}
+
+.app .title {
+    display: block;
+    width: 100%;
+    font-size: 58px;
+    text-align: center;
+    margin-bottom: var(--separation);
+}
+
+.app .content {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.app .content .controls {
+    display: block;
+    width: 70%;
+}
+
+.app .content .view {
+    display: block;
+    width: 30%;
+}
+
+/*-----------------------------------*/
+/* Estilos del row-controls */
+/*-----------------------------------*/
+.app .content .controls .row-controls {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--separation);
+}
+
+/*-----------------------------------*/
+/* Estilos del col-cords */
+/*-----------------------------------*/
+.app .content .controls .row-controls .col-coords {
+    display: flex;
+    width: 50%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.app .content .controls .row-controls .col-coords .input-group {
+    display: block;
+    width: calc((100%/3) - 5px);
+    margin-right: 5px;
+}
+
+.app .content .controls .row-controls .col-coords .input-group:nth-child(2) {
+    width: calc((100%/3) - 10px);
+    margin-left: 5px;
+}
+
+.app .content .controls .row-controls .col-coords .input-group .label-coords {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.app .content .controls .row-controls .col-coords .input-group .input-coords {
+    display: block;
+    width: 100%;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: all .3S ease;
+}
+
+.app .content .controls .row-controls .col-coords .input-group .input-coords:focus {
+    border: 1px solid #0074D9;
+}
+
+.app .content .controls .row-controls .col-coords .search-location {
+    display: block;
+    width: calc((100%/3) - 5px);
+    background: none;
+    padding: var(--separation-small);
+    color: #0074D9;
+    border: 1px solid #0074D9;
+    border-radius: 4px;
+    margin-left: 5px;
+    transition: all .3s ease;
+    cursor: pointer;
+}
+
+.app .content .controls .row-controls .col-coords .search-location svg {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-bottom: var(--separation-small);
+}
+
+.app .content .controls .row-controls .col-coords .search-location:hover {
+    background: #0074D9;
+    color: #fff;
+}
+
+.app .content .controls .row-controls .col-coords .search-location:active {
+    background: rgba(0, 116, 217, .5);
+    border: 1px solid transparent;
+    transform: scale(.95);
+}
+
+/*-----------------------------------*/
+/* Estilos del col-month */
+/*-----------------------------------*/
+.app .content .controls .row-controls .col-month {
+    display: flex;
+    width: 25%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app .content .controls .row-controls .col-month .btn-navigate {
+    display: block;
+    width: 25%;
+    background: none;
+    color: #000;
+    padding: var(--separation-small);
+    border: none;
+    transition: all .3S ease;
+    cursor: pointer;
+}
+
+.app .content .controls .row-controls .col-month .btn-navigate:hover {
+    color: #0074D9;
+}
+
+.app .content .controls .row-controls .col-month .label-navigate {
+    display: block;
+    width: 50%;
+    text-align: center;
+}
+
+/*-----------------------------------*/
+/* Estilos del col-year */
+/*-----------------------------------*/
+.app .content .controls .row-controls .col-year {
+    display: block;
+    width: 25%;
+}
+
+.app .content .controls .row-controls .col-year .btn-navigate {
+    display: block;
+    width: 100%;
+    background: none;
+    color: #000;
+    padding: var(--separation-small);
+    border: none;
+    transition: all .3S ease;
+    cursor: pointer;
+}
+
+.app .content .controls .row-controls .col-year .btn-navigate:hover {
+    color: #0074D9;
+}
+
+.app .content .controls .row-controls .col-year .label-navigate {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+/*-----------------------------------*/
+/* Estilos del calendar */
+/*-----------------------------------*/
+.app .content .controls .calendar {
+    display: block;
+    width: 100%;
+}
+
+.app .content .controls .calendar thead tr td {
+    padding: var(--separation-small);
+    text-align: center;
+}
+
+.app .content .controls .calendar tbody tr td {
+    padding: var(--separation-small);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: all .3S ease;
+    cursor: pointer;
+}
+
+.app .content .controls .calendar tbody tr td .day-number {
+    display: block;
+    width: 100%;
+    text-align: end;
+    font-weight: bold;
+    margin-bottom: var(--separation-small);
+}
+
+.app .content .controls .calendar tbody tr td .day-tracker {
+    display: block;
+    width: 100px;
+    height: 100px;
+    background: #EFDD3E;
+}
+
+/* Estilos de los eventos del td */
+.app .content .controls .calendar tbody tr td:hover {
+    background: rgba(204, 204, 204, .5);
+}
+
+.app .content .controls .calendar tbody tr td.active {
+    border: 2px solid #0074D9;
+}
+
+.app .content .controls .calendar tbody tr td[disabled] {
+    border: none;
+    cursor: not-allowed;
+}
+
+.app .content .controls .calendar tbody tr td[disabled] .day-number {
+    font-weight: normal;
+}
+
+.app .content .controls .calendar tbody tr td[disabled] .day-tracker {
+    opacity: 0;
+}
+
+.app .content .controls .calendar tbody tr td[disabled]:hover {
+    background: none;
+}
+
+/*-----------------------------------*/
+/* Estilos del view */
+/*-----------------------------------*/
+.app .view {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+
+.app .view .simulator {
+    display: inline-block;
+    width: 100%;
+    height: calc(50% - (var(--separation)/2) - 3.75px);
+    background: #ccc;
+    margin-bottom: calc(var(--separation)/2);
+    position: relative;
+}
+
+.app .view .solar-tracker {
+    display: inline-block;
+    width: 100%;
+    height: calc(50% - (var(--separation)/2) - 3.75px);
+    background: #EFDD3E;
+    margin-top: calc(var(--separation)/2);
+}
+
+/*-----------------------------------*/
+/* Estilos del simulador */
+/*-----------------------------------*/
+.app .content .view .simulator .view {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.app .content .view .simulator .controls {
+    display: flex;
+    width: 100%;
+    height: 30px;
+    background: rgba(0, 0, 0, .7);
+    color: #fff;
+    padding: 0 5px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: all .3S ease;
+    transform: scaleY(0);
+    transform-origin: bottom;
+}
+
+.app .content .view .simulator .controls.active {
+    transform: scaleY(1);
+}
+
+.app .content .view .simulator .controls .btn-play {
+    display: block;
+    width: 10%;
+    background: none;
+    color: #fff;
+    border: none;
+    transition: all .3s ease;
+    cursor: pointer;
+}
+
+.app .content .view .simulator .controls .btn-play:hover {
+    color: rgba(255, 255, 255, .5);
+}
+
+.app .content .view .simulator .controls .progress-simulator {
+    display: block;
+    width: 65%;
+    height: 10px;
+    background: linear-gradient(90deg, #0074D9 0, #ccc 0 100%);
+    border-radius: 15px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+}
+
+.app .content .view .simulator .controls .progress-simulator::-webkit-slider-thumb,
+.app .content .view .simulator .controls .progress-simulator::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #0074D9;
+    border: none;
+    border-radius: 50%;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    transition: all .3s ease;
+    cursor: pointer;
+}
+
+.app .content .view .simulator .controls .progress-simulator:active::-webkit-slider-thumb,
+.app .content .view .simulator .controls .progress-simulator:active::-moz-range-thumb {
+    background: #202124;
+}
+
+/*-----------------------------------*/
+/* Estilos del content-location */
+/*-----------------------------------*/
+.content-location {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: rgba(32, 33, 36, .5);
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.content-location.active {
+    display: flex;
+}
+
+.content-location .form-location {
+    display: block;
+    width: 90%;
+    max-width: 500px;
+    background: #fff;
+    padding: var(--separation);
+}
+
+.content-location .form-location .title {
+    display: block;
+    width: 100%;
+    font-size: 38px;
+    text-align: center;
+}
+
+.content-location .form-location hr {
+    display: block;
+    width: 100%;
+    background: #ccc;
+    margin: var(--separation) 0;
+}
+
+.content-location .form-location .search {
+    display: block;
+    width: 100%;
+    margin-bottom: var(--separation);
+}
+
+.content-location .form-location .search label {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-bottom: var(--separation-small);
+}
+
+.content-location .form-location .search .input-search {
+    display: block;
+    width: 90%;
+    text-align: center;
+    padding: var(--separation-small);
+    border: 1px solid rgba(0, 0, 0, .5);
+    border-radius: 20px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;   
+    margin: 0 auto;
+    transition: all .3S ease;
+}
+
+.content-location .form-location .search .input-search:focus {
+    border: 1px solid #0074D9;
+}
+
+.content-location .form-location .map-location {
+    display: block;
+    width: 100%;
+    height: 300px;
+}
+
+.content-location .form-location .buttons {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-location .form-location .buttons .btn-accept,
+.content-location .form-location .buttons .btn-close {
+    display: block;
+    color: #fff;
+    padding: var(--separation-small);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.content-location .form-location .buttons .btn-accept svg,
+.content-location .form-location .buttons .btn-close svg {
+    margin-right: 10px;
+}
+
+.content-location .form-location .buttons .btn-accept {
+    background: #6f2cf2;
+    margin-right: calc(var(--separation) / 2);
+}
+
+.content-location .form-location .buttons .btn-close {
+    background: #6c757d;
+    margin-left: calc(var(--separation) / 2);
+}
+
+.content-location .form-location .buttons .btn-accept:hover {
+    background: rgba(111, 44, 242, .5);
+}
+
+.content-location .form-location .buttons .btn-close:hover {
+    background: rgba(108, 117, 125, .5);
+}
+
+.content-location .form-location .buttons .btn-accept:active,
+.content-location .form-location .buttons .btn-close:active {
+    transform: scale(.95);
+}

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Tracker Web</title>
+</head>
+
+<body>
+    <div class="app">
+        <h1 class="title">Solar Tracker Web</h1>
+        <div class="content">
+            <form action="#" class="controls">
+                <div class="row-controls">
+                    <div class="col-coords">
+                        <div class="input-group">
+                            <label for="input-lat" class="label-coords">Lat:</label>
+                            <input class="input-coords" type="number" placeholder="Latitude" min="-90" max="90"
+                                step="0.001" id="input-lat">
+                        </div>
+                        <div class="input-group">
+                            <label for="input-lon" class="label-coords">Lon:</label>
+                            <input class="input-coords" type="number" placeholder="Longitude" min="-90" max="90"
+                                step="0.001" id="input-lon">
+                        </div>
+                        <button type="button" class="search-location" id="search-location">
+                            <i class="fa-solid fa-location-dot"></i>
+                            Buscar ubicacion
+                        </button>
+                    </div>
+                    <div class="col-month">
+                        <button type="button" class="btn-navigate" id="btn-previous-month">
+                            <i class="fa-solid fa-angle-left"></i>
+                        </button>
+                        <label class="label-navigate" id="label-navigate-month">Diciembre</label>
+                        <button type="button" class="btn-navigate" id="btn-next-month">
+                            <i class="fa-solid fa-angle-right"></i>
+                        </button>
+                    </div>
+                    <div class="col-year">
+                        <button type="button" class="btn-navigate" id="btn-previous-year">
+                            <i class="fa-solid fa-angle-up"></i>
+                        </button>
+                        <label class="label-navigate" id="label-navigate-month">2025</label>
+                        <button type="button" class="btn-navigate" id="btn-next-year">
+                            <i class="fa-solid fa-angle-down"></i>
+                        </button>
+                    </div>
+                </div>
+                <table class="calendar" id="calendar">
+                    <thead>
+                        <tr>
+                            <td>Lunes</td>
+                            <td>Martes</td>
+                            <td>Miercoles</td>
+                            <td>Jueves</td>
+                            <td>Viernes</td>
+                            <td>Sábado</td>
+                            <td>Domingo</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-index="1">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="2">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="3">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="4">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="5">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="6">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="7">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-index="8">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="9">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="10">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="11">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="12">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="13">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="14">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-index="15">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="16">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="17">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="18">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="19">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="20">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="21">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-index="22">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="23">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="24">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="25">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="26">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="27">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="28">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-index="29">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="30">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="31">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="32">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="33">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="34">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="35">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-index="36">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="37">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="38">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="39">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="40">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="41">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                            <td data-index="42">
+                                <span class="day-number">-</span>
+                                <canvas class="day-tracker"></canvas>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+            <div class="view">
+                <div class="simulator">
+                    <canvas class="view" id="view-simulator"></canvas>
+                    <form class="controls" id="controls-simulator">
+                        <button class="btn-play" id="btn-play">
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        <input type="range" class="progress-simulator" id="progress-simulator">
+                        <label for="progress-simulator" class="progress-text" id="proogress-text">0:00/2:00</label>
+                    </form>
+                </div>
+                <canvas class="solar-tracker"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="content-location" id="content-location">
+        <form class="form-location" id="form-location">
+            <h2 class="title">Buscar Ubicacion</h2>
+            <hr />
+            <div class="search">
+                <label for="input-search">Buscar:</label>
+                <input type="text" class="input-search" id="input-search">
+            </div>
+            <div class="map-location" id="map-location"></div>
+            <hr />
+            <div class="buttons">
+                <button type="submit" class="btn-accept">
+                    <i class="fa-solid fa-check"></i>
+                    Aceptar
+                </button>
+                <button type="button" class="btn-close" id="btn-close">
+                    <i class="fa-solid fa-xmark"></i>
+                    Cerrar
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
