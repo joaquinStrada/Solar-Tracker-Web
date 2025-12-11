@@ -409,7 +409,7 @@ body {
   background: rgba(32, 33, 36, 0.5);
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   position: absolute;
   top: 0;
   left: 0;
@@ -427,6 +427,7 @@ body {
   max-width: 500px;
   background: #fff;
   padding: var(--separation);
+  margin-top: 40px;
 }
 
 .content-location .form-location .title {
