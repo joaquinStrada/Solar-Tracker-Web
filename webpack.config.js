@@ -16,16 +16,20 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js/,
+                test: /\.js$/,
                 exclude: /node_modules/,
                 use: 'babel-loader'
             },
             {
-                test: /\.css/,
+                test: /\.css$/,
                 use: [
                     MiniCssExtractPlugin.loader,
                     'css-loader'
                 ]
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg)$/i,
+                type: 'asset/resource'
             }
         ]
     },

@@ -11,18 +11,18 @@
     <div class="app">
         <h1 class="title">Solar Tracker Web</h1>
         <div class="content">
-            <form action="#" class="controls">
+            <form action="#" class="controls" id="form-controls">
                 <div class="row-controls">
                     <div class="col-coords">
                         <div class="input-group">
                             <label for="input-lat" class="label-coords">Lat:</label>
                             <input class="input-coords" type="number" placeholder="Latitude" min="-90" max="90"
-                                step="0.001" id="input-lat">
+                                step="0.001" id="input-lat" value="">
                         </div>
                         <div class="input-group">
                             <label for="input-lon" class="label-coords">Lon:</label>
                             <input class="input-coords" type="number" placeholder="Longitude" min="-90" max="90"
-                                step="0.001" id="input-lon">
+                                step="0.001" id="input-lon" valu="">
                         </div>
                         <button type="button" class="search-location" id="search-location">
                             <i class="fa-solid fa-location-dot"></i>
@@ -282,4 +282,5 @@
         </form>
     </div>
 </body>
+
 </html>
