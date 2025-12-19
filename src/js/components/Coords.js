@@ -10,6 +10,7 @@ export default class Coords {
         this.btnSearch = $id('search-location')
         this.contentSearchLocation = $id('content-location')
         this.formSearchLocation = $id('form-location')
+        this.contentSearch = $id('search')
         this.inputSearch = $id('input-search')
         this.btnClose = $id('btn-close')
         this.map = null
@@ -21,8 +22,9 @@ export default class Coords {
 
         this.inputLat.addEventListener('input', e => this.onInput(e))
         this.inputLon.addEventListener('input', e => this.onInput(e))
-        this.btnSearch.addEventListener('click', () => this.onSearch())
+        this.btnSearch.addEventListener('click', () => this.onClick())
         this.btnClose.addEventListener('click', () => this.contentSearchLocation.classList.remove('active'))
+        this.inputSearch.addEventListener('input', () => this.onSearch())
     }
 
     onInput(e) {
@@ -47,20 +49,28 @@ export default class Coords {
         this.inputLon.value = Math.round(lon * 1000) / 10000
 
         // Mostramos la ubicacion en el mapa
-        this.map.setView([lat, lon], this.map.getZoom())
+        this.map && this.map.setView([lat, lon], this.map.getZoom())
 
-        this.marker.setLatLng([lat, lon])
+        this.marker && this.marker.setLatLng([lat, lon])
     }
 
-    onSearch() {
+    onClick() {
         if (!this.contentSearchLocation.classList.contains('active')) {
             this.contentSearchLocation.classList.add('active')
 
             // Actualizamos el size del mapa
-            if (this.map) setTimeout(() => {
+            this.map && setTimeout(() => {
                 this.map.invalidateSize()
             }, 300)
         }
+    }
+
+    onSearch() {
+        if (this.inputSearch.value.length < 3 && this.contentSearch.classList.contains('active')) return this.contentSearch.classList.remove('active')
+        else if (this.inputSearch.value.length < 3) return
+        else if (this.inputSearch.value.length >= 3 && !this.contentSearch.classList.contains('active')) this.contentSearch.classList.add('active')
+        
+        
     }
 
     renderMap() {

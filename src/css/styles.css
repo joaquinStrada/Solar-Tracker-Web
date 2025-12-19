@@ -446,8 +446,9 @@ body {
 
 .content-location .form-location .search {
   display: block;
-  width: 100%;
-  margin-bottom: var(--separation);
+  width: 90%;
+  margin: 0 auto var(--separation) auto;
+  position: relative;
 }
 
 .content-location .form-location .search label {
@@ -457,9 +458,14 @@ body {
   margin-bottom: var(--separation-small);
 }
 
-.content-location .form-location .search .input-search {
+.content-location .form-location .search .content-input {
+  margin-bottom: calc(var(--separation-small) + 15px);
+  position: relative;
+}
+
+.content-location .form-location .search .content-input .input-search {
   display: block;
-  width: 90%;
+  width: 100%;
   text-align: center;
   padding: var(--separation-small);
   border: 1px solid rgba(0, 0, 0, 0.5);
@@ -468,18 +474,105 @@ body {
   -webkit-appearance: none;
   -moz-appearance: none;
   outline: none;
-  margin: 0 auto;
   transition: all 0.3s ease;
 }
 
-.content-location .form-location .search .input-search:focus {
-  border: 1px solid #0074d9;
+.content-location .form-location .search .content-input .input-search:focus {
+  border: 1px solid #0074D9;
+}
+
+.content-location .form-location .search.active .content-input .input-search {
+  border: 3px solid #0074D9;
+}
+
+.content-location .form-location .search.active .content-input::before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 15px solid #0074D9;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 15px solid transparent;
+  position: absolute;
+  left: calc(50% - 15px);
+  bottom: -30px;
+}
+
+/* ---- Estilos del list-locations ---- */
+.content-location .form-location .search .list-locations {
+  display: none;
+  width: 100%;
+  height: 150px;
+  background: #fff;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, .16);
+  border: none;
+  border-radius: 5px;
+  list-style: none;
+  overflow: auto;
+  position: absolute;
+  z-index: 200;
+}
+
+.content-location .form-location .search.active .list-locations {
+  display: block;
+  animation: fadeIn .3S forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    transform: translateY(-200px) scale(.5);
+  }
+
+  to {
+    transform: translateY(0) scale(1);
+  }
+}
+
+.content-location .form-location .search .list-locations li {
+  display: block;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+}
+
+.content-location .form-location .search .list-locations li a {
+  display: block;
+  width: 100%;
+  color: #000;
+  text-decoration: none;
+  padding: var(--separation-small);
+  transition: all .3s ease;
+  cursor: pointer;
+}
+
+.content-location .form-location .search .list-locations li a h2 {
+  display: block;
+  width: 100%;
+  font-size: 25px;
+  text-align: center;
+  margin-bottom: var(--separation-small);
+}
+
+.content-location .form-location .search .list-locations li a p {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.content-location .form-location .search .list-locations li a:hover {
+  background: #ccc;
+}
+
+.content-location .form-location .search .list-locations li a:active {
+  background: rgba(204, 204, 204, .5);
+  color: rgba(0, 0, 0, .7);
 }
 
 .content-location .form-location .map-location {
   display: block;
   width: 100%;
   height: 300px;
+  z-index: 100;
 }
 
 .content-location .form-location .buttons {
