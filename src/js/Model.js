@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export default class Model {
     constructor() {
         this.view = null
@@ -14,5 +16,16 @@ export default class Model {
         } else {
             alert("Permisos de localizacion desactivados")
         }
+    }
+
+    async getDataLocation(valueSearch) {
+        return await axios.get('https://nominatim.openstreetmap.org/search', {
+            params: {
+                q: valueSearch,
+                polygon_geojson: 1,
+                limit: 5,
+                format: 'jsonv2'
+            }
+        })
     }
 }

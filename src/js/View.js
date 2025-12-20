@@ -4,6 +4,8 @@ export default class View {
     constructor() {
         this.model = null
         this.coords = new Coords()
+
+        this.coords.setGetDataLocation(valueSearch => this.model.getDataLocation(valueSearch))
     }
 
     setModel(model) {
