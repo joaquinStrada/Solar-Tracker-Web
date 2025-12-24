@@ -179,10 +179,6 @@ body {
   cursor: pointer;
 }
 
-.app .content .controls .row-controls .col-month .btn-navigate:hover {
-  color: #0074d9;
-}
-
 .app .content .controls .row-controls .col-month .label-navigate {
   display: block;
   width: 50%;
@@ -208,8 +204,13 @@ body {
   cursor: pointer;
 }
 
-.app .content .controls .row-controls .col-year .btn-navigate:hover {
+.app .content .controls .row-controls .btn-navigate:hover {
   color: #0074d9;
+}
+
+.app .content .controls .row-controls .btn-navigate[disabled] {
+  color: #ccc;
+  cursor: not-allowed;
 }
 
 .app .content .controls .row-controls .col-year .label-navigate {
@@ -269,6 +270,7 @@ body {
 }
 
 .app .content .controls .calendar tbody tr td[disabled] .day-number {
+  color: #ccc;
   font-weight: normal;
 }
 

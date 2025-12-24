@@ -1,10 +1,15 @@
-import Coords from "./components/Coords"
+import Coords from './components/Coords'
+import Calendar from './components/Calendar'
+import { $id } from './functions'
 
 export default class View {
     constructor() {
         this.model = null
+        this.formControls = $id('form-controls')
         this.coords = new Coords()
+        this.calendar = new Calendar(new Date())
 
+        this.formControls.addEventListener('submit', e => e.preventDefault())
         this.coords.setGetDataLocation(valueSearch => this.model.getDataLocation(valueSearch))
     }
 
@@ -14,5 +19,6 @@ export default class View {
 
     onCoords(lat, lon) {
         this.coords.setCoords(lat, lon)
+        this.calendar.render()
     }
 }
