@@ -98,4 +98,29 @@ export default class Calendar {
     setGetDataDay(callback) {
         this.getDataDay = callback
     }
+
+    drawCanvas(index, points) {
+        const canvas = $(`tbody td[data-index="${index}"] .day-tracker`, this.calendar)   
+        const { width, height } = canvas.getBoundingClientRect()
+        
+        // Seteamos las medidas en el canvas
+        canvas.setAttribute('width', width)
+        canvas.setAttribute('height', height)
+
+        // Limpiamos el canvas
+        const ctx = canvas.getContext('2d')
+        ctx.clearRect(0, 0, width, height)
+
+        // Pintamos los puntos
+        points.forEach((point, i, arr) => {
+            // Obtenemos el punto siguinte
+            const pointNext = i < arr.length - 1 ? arr[i + 1] : null
+            
+            // Pintamos el punto
+            ctx.fillStyle = '#F00'
+            ctx.beginPath()
+            ctx.arc(point.x, point.y, 2, 0, 2 * Math.PI)
+            ctx.fill()
+        })
+    }
 }

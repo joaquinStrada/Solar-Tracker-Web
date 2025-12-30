@@ -11,6 +11,7 @@ export default class View {
 
         this.formControls.addEventListener('submit', e => e.preventDefault())
         this.coords.setGetDataLocation(valueSearch => this.model.getDataLocation(valueSearch))
+        this.calendar.setGetDataDay((index, day, month, year, widthCanvas, heightCanvas) => this.onData(index, day, month, year, widthCanvas, heightCanvas))
     }
 
     setModel(model) {
@@ -20,5 +21,11 @@ export default class View {
     onCoords(lat, lon) {
         this.coords.setCoords(lat, lon)
         this.calendar.render()
+    }
+
+    onData(index, day, month, year, widthCanvas, heightCanvas) {
+        const { lat } = this.coords.data
+        const points = this.model.getDataDay(lat, day, month, year, widthCanvas, heightCanvas)
+        this.calendar.drawCanvas(index, points)       
     }
 }
