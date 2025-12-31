@@ -14,6 +14,7 @@ export default class Calendar {
         this.btnNextYear = $id('btn-next-year')
         this.isLoad = false
         this.calendar = $id('calendar')
+        // eslint-disable-next-line no-unused-vars
         this.getDataDay = (index, day, month, year, widthCanvas, heightCanvas) => {}
 
         this.btnPreviousMonth.addEventListener('click', e => this.onClick(e))
@@ -112,15 +113,38 @@ export default class Calendar {
         ctx.clearRect(0, 0, width, height)
 
         // Pintamos los puntos
-        points.forEach((point, i, arr) => {
-            // Obtenemos el punto siguinte
-            const pointNext = i < arr.length - 1 ? arr[i + 1] : null
-            
-            // Pintamos el punto
+        points.forEach(point => {
             ctx.fillStyle = '#F00'
             ctx.beginPath()
             ctx.arc(point.x, point.y, 2, 0, 2 * Math.PI)
             ctx.fill()
         })
+
+        // Dibujar las lineas
+        ctx.strokeStyle = '#000'
+        ctx.lineWidth = 2
+        ctx.beginPath()
+
+        // Inicio el trazo
+        ctx.moveTo(points[0].x, points[0].i)
+
+        // Recorro los puntos
+        for (let i = 1; i < points.length - 2; i++) {
+            const { x: px, y: py } = points[i]
+            const xc = (px + points[i + 1].x) / 2
+            const yc = (py + points[i + 1].y) / 2
+
+            ctx.quadraticCurveTo(px, py, xc, yc)
+        }
+
+        if (points.length > 2) {
+            const { x: px, y: py } = points[points.length - 2]
+            const { x: px2, y: py2 } = points[points.length - 1]
+
+
+            ctx.quadraticCurveTo(px, py, px2, py2)
+        }
+
+        ctx.stroke()
     }
 }
