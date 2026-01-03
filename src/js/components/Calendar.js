@@ -14,13 +14,20 @@ export default class Calendar {
         this.btnNextYear = $id('btn-next-year')
         this.isLoad = false
         this.calendar = $id('calendar')
+        this.tdDays = $$('tbody td', this.calendar)
+
         // eslint-disable-next-line no-unused-vars
         this.getDataDay = (index, day, month, year, widthCanvas, heightCanvas) => {}
+        // eslint-disable-next-line no-unused-vars
+        this.callbackOnSelect = (day, month, year) => {}
 
         this.btnPreviousMonth.addEventListener('click', e => this.onClick(e))
         this.btnNextMonth.addEventListener('click', e => this.onClick(e))
         this.btnPreviousYear.addEventListener('click', e => this.onClick(e))
         this.btnNextYear.addEventListener('click', e => this.onClick(e))
+        this.tdDays.forEach(tdDay => {
+            tdDay.addEventListener('click', e => this.onSelect(e))
+        })       
     }
 
     render() {
@@ -113,8 +120,9 @@ export default class Calendar {
         ctx.clearRect(0, 0, width, height)
 
         // Pintamos los puntos
+        ctx.fillStyle = '#F00'
+        
         points.forEach(point => {
-            ctx.fillStyle = '#F00'
             ctx.beginPath()
             ctx.arc(point.x, point.y, 2, 0, 2 * Math.PI)
             ctx.fill()
@@ -122,29 +130,57 @@ export default class Calendar {
 
         // Dibujar las lineas
         ctx.strokeStyle = '#000'
-        ctx.lineWidth = 2
-        ctx.beginPath()
-
+        ctx.lineWidth = 1
+        
         // Inicio el trazo
+        ctx.beginPath()
         ctx.moveTo(points[0].x, points[0].i)
 
         // Recorro los puntos
         for (let i = 1; i < points.length - 2; i++) {
-            const { x: px, y: py } = points[i]
-            const xc = (px + points[i + 1].x) / 2
-            const yc = (py + points[i + 1].y) / 2
+            const { x: px, y: py } = points[i - 1] || points[i]
+            const { x: px1, y: py1 } = points[i]
+            const { x: px2, y: py2 } = points[i + 1]
+            const { x: px3, y: py3 } = points[i + 2] || points[i + 1]
 
-            ctx.quadraticCurveTo(px, py, xc, yc)
-        }
+            const distX = Math.abs(px2 - px1)
 
-        if (points.length > 2) {
-            const { x: px, y: py } = points[points.length - 2]
-            const { x: px2, y: py2 } = points[points.length - 1]
+            if (distX > width / 2) {
+                ctx.stroke()
+                ctx.beginPath()
+                ctx.moveTo(px2, py2)
+                continue
+            }
 
+            // Sacamos los puntos de control
+            const t = 6
+            let cp1x = px1 + (px2 - px) / t
+            let cp1y = py1 + (py2 - py) / t
 
-            ctx.quadraticCurveTo(px, py, px2, py2)
+            let cp2x = px2 + (px3 - px1) / t
+            let cp2y = py2 + (py3 - py1) / t
+
+            if (py1 < py && py1 < py2) {
+                cp1y = py1
+            } else if (py2 < py && py2 < py3) {
+                cp2y = py2
+            }
+
+            ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, px2, py2)
         }
 
         ctx.stroke()
+    }
+
+    onSelect(e) {
+        const dayNumber = $('.day-number', e.currentTarget)
+        
+        if (!this.isLoad || e.currentTarget.hasAttribute('disabled')) return
+
+        this.callbackOnSelect(parseInt(dayNumber.innerText), this.month, this.year)
+    }
+
+    setOnSelect(callback) {
+        this.callbackOnSelect = callback
     }
 }
