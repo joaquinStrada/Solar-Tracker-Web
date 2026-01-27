@@ -24,6 +24,7 @@ export default class View {
     onCoords(lat, lon) {
         this.coords.setCoords(lat, lon)
         this.calendar.render()
+        this.viewer.loadSimulator()
     }
 
     onData(index, day, month, year, widthCanvas, heightCanvas) {

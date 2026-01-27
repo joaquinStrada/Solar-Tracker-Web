@@ -1,3 +1,7 @@
+import { MTLLoader } from 'three/addons/loaders/MTLLoader.js'
+import { OBJLoader } from 'three/addons/loaders/OBJLoader.js'
+import * as THREE from 'three'
+
 export const $id = id => document.getElementById(id)
 
 export const $ = (el, parent = document) => parent.querySelector(el)
@@ -12,4 +16,31 @@ export const constrain = (x, min, max) => {
     } else {
         return x
     }
+}
+
+export const loadModel = async (MTL, OBJ) => {
+    // Load Material
+    const mtlLoader = new MTLLoader()
+    const material = await mtlLoader.loadAsync(MTL)
+    material.preload()
+
+    const objLoader = new OBJLoader()
+    objLoader.setMaterials(material)
+
+    return await objLoader.loadAsync(OBJ)
+}
+
+export const prepareModel = (model, scale = 1, position = [0, 0, 0], rotate = [0, 0, 0]) => {
+    model.scale.set(scale, scale, scale)
+    model.position.set(...position)
+    model.rotation.set(...rotate)
+
+    model.traverse(child => {
+        if (child.isMesh) {
+            child.geometry.computeVertexNormals()
+            child.material.side = THREE.DoubleSide
+        }
+    })
+
+    return model
 }
