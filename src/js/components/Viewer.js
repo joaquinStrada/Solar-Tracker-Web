@@ -1,4 +1,4 @@
-import { $id, loadModel, prepareModel } from '../functions'
+import { $id, getScaleModel, loadModel, placeOnGround, prepareModel } from '../functions'
 import * as THREE from 'three'
 import { Sky } from 'three/examples/jsm/objects/Sky.js'
 import BaseOBJ from '../../models/Base.obj'
@@ -108,7 +108,8 @@ export default class Viewer {
 
         // Crear la camara
         this.camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000)
-        this.camera.position.z = 10
+        this.camera.position.set(0, 2, 6)
+        this.camera.lookAt(0, 1, 0)
         this.scene.add(this.camera)
 
         // Agregamos la iluminacion
@@ -152,19 +153,31 @@ export default class Viewer {
 
         try {
             // Cargamos los modelos
+            let tracker = new THREE.Group()
             const baseModel = await loadModel(BaseMTL, BaseOBJ)
             const supportModel = await loadModel(SupportMTL, SupportOBJ)
             const panelModel = await loadModel(PanelMTL, PanelOBJ)
 
             // Configuramos los modelos
-            this.configSimulator.models.base = prepareModel(baseModel)
-            this.configSimulator.models.support = prepareModel(supportModel)
-            this.configSimulator.models.panel = prepareModel(panelModel)
+            this.configSimulator.models.base = prepareModel(baseModel, 1, [THREE.MathUtils.degToRad(90), 0, 0])
+            this.configSimulator.models.support = prepareModel(supportModel, 1, [THREE.MathUtils.degToRad(-90), 0, 0])
+            this.configSimulator.models.panel = prepareModel(panelModel, 1, [THREE.MathUtils.degToRad(-90), 0, 0])
+
+            this.configSimulator.models.base = placeOnGround(this.configSimulator.models.base, 0)
+            this.configSimulator.models.support = placeOnGround(this.configSimulator.models.support, 0.018)
+            this.configSimulator.models.panel = placeOnGround(this.configSimulator.models.panel, 90)
+
+            // Añadimos los modelos al tracker
+            tracker.add(this.configSimulator.models.base)
+            tracker.add(this.configSimulator.models.support)
+            tracker.add(this.configSimulator.models.panel)
+
+            // Configuramos el tracker
+            tracker.scale.setScalar(getScaleModel(tracker, 2.25, 'y'))
+            tracker = placeOnGround(tracker)
 
             // Cargamos los modelos            
-            this.scene.add(this.configSimulator.models.base)
-            this.scene.add(this.configSimulator.models.support)
-            this.scene.add(this.configSimulator.models.panel)
+            this.scene.add(tracker)
 
             // Renderizamos la escena
             this.renderer = new THREE.WebGLRenderer({

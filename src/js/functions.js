@@ -30,9 +30,8 @@ export const loadModel = async (MTL, OBJ) => {
     return await objLoader.loadAsync(OBJ)
 }
 
-export const prepareModel = (model, scale = 1, position = [0, 0, 0], rotate = [0, 0, 0]) => {
+export const prepareModel = (model, scale = 1, rotate = [0, 0, 0]) => {
     model.scale.set(scale, scale, scale)
-    model.position.set(...position)
     model.rotation.set(...rotate)
 
     model.traverse(child => {
@@ -42,5 +41,19 @@ export const prepareModel = (model, scale = 1, position = [0, 0, 0], rotate = [0
         }
     })
 
+    return model
+}
+
+export const getScaleModel = (model, targetMeters, axis = 'x') => {
+    const box = new THREE.Box3().setFromObject(model)
+    const size = new THREE.Vector3()
+    box.getSize(size)
+    return targetMeters / size[axis]
+}
+
+export const placeOnGround = (model, groundY = 0) => {
+    const box = new THREE.Box3().setFromObject(model)
+    const minY = box.min.y
+    model.position.y += groundY - minY
     return model
 }
