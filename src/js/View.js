@@ -37,5 +37,6 @@ export default class View {
         const canvasMessurment = this.viewer.getMessurmentChart()
         const points = this.model.getDataDay(this.coords.data.lat, day, month, year, canvasMessurment.width, canvasMessurment.height)
         this.viewer.renderGraph(points)
+        this.viewer.renderSimulator(this.coords.data.lat, day, month, year)
     }
 }

@@ -27,9 +27,27 @@ export default class Viewer {
             models: {
                 base: null,
                 support: null,
-                panel: null
-            }
+                panel: null,
+                tracker: null
+            },
+            // eslint-disable-next-line no-unused-vars
+            getData: (hour, lat, day, month, year) => {},
+            data: {
+                lat: 0,
+                day: null,
+                month: null,
+                year: null,
+                timeInit: 0
+            },
+            active: false,
+            play: false
         }
+
+        this.viewSimulator.addEventListener('mousemove', e => this.onMove(e))
+        this.controlsSimulator.addEventListener('submit', e => e.preventDefault()) 
+        this.btnPlay.addEventListener('click', () => this.onClick())
+        this.progressSimulator.addEventListener('mousemove', () => this.updateSimulator())
+        this.controlsSimulator.reset()
     }
 
     getMessurmentChart() {
@@ -194,5 +212,55 @@ export default class Viewer {
 
     animate() {
         this.renderer.render(this.scene, this.camera)
+    }
+
+    renderSimulator(lat, day, month, year) {
+        // Seteamos las variables en el objeto
+        this.configSimulator.data.lat = lat
+        this.configSimulator.data.day = day
+        this.configSimulator.data.month = month
+        this.configSimulator.data.year = year
+        this.configSimulator.active = true       
+    }
+
+    onMove(e) {
+        if (!this.configSimulator.active) return
+        
+        const { clientY } = e
+        const { top, height } = this.viewSimulator.getBoundingClientRect()
+        const umbral = height - clientY + top
+
+        if (umbral < 30 && !this.controlsSimulator.classList.contains('active')) this.controlsSimulator.classList.add('active')
+        else if (umbral > 30 && this.controlsSimulator.classList.contains('active'))this.controlsSimulator.classList.remove('active')
+    }
+
+    onClick() {
+        if (!this.configSimulator.active) return
+        
+        this.configSimulator.play = !this.configSimulator.play
+
+        if (this.configSimulator.play) {
+            this.btnPlay.innerHTML = `<svg class="svg-inline--fa fa-pause" data-prefix="fas" data-icon="pause" role="img" viewBox="0 0 384 512" aria-hidden="true" data-fa-i2svg="">
+                <path fill="currentColor" d="M48 32C21.5 32 0 53.5 0 80L0 432c0 26.5 21.5 48 48 48l64 0c26.5 0 48-21.5 48-48l0-352c0-26.5-21.5-48-48-48L48 32zm224 0c-26.5 0-48 21.5-48 48l0 352c0 26.5 21.5 48 48 48l64 0c26.5 0 48-21.5 48-48l0-352c0-26.5-21.5-48-48-48l-64 0z">
+                </path>
+                </svg>`
+            this.configSimulator.data.timeInit = new Date().getTime()
+        } else {
+            this.btnPlay.innerHTML = `<svg class="svg-inline--fa fa-play" data-prefix="fas" data-icon="play" role="img" viewBox="0 0 448 512" aria-hidden="true" data-fa-i2svg="">
+                <path fill="currentColor" d="M91.2 36.9c-12.4-6.8-27.4-6.5-39.6 .7S32 57.9 32 72l0 368c0 14.1 7.5 27.2 19.6 34.4s27.2 7.5 39.6 .7l336-184c12.8-7 20.8-20.5 20.8-35.1s-8-28.1-20.8-35.1l-336-184z">
+                </path>
+                </svg>`
+        }
+    }
+
+    updateSimulator() {
+        const value = parseInt(this.progressSimulator.value)
+        this.progressText.innerText = `${Math.floor(value / 60000)}:${(
+            Math.floor(value / 1000) % 60) < 10 ? `0${Math.floor(value / 1000) % 60}`
+        : Math.floor(value / 1000) % 60}/2:00`
+        const percent = value * 100 / 120000
+        this.progressSimulator.style.background = `linear-gradient(90deg, #0074d9 0 ${percent}%, #ccc ${percent}% 100%)`
+
+        // Simulacion
     }
 }

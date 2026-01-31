@@ -1,7 +1,7 @@
 import { config, library, dom } from '@fortawesome/fontawesome-svg-core'
 import { faLocationDot, faAngleLeft, faAngleRight,
         faAngleDown, faAngleUp, faPlay, faCheck, 
-        faXmark, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+        faXmark, faMagnifyingGlass, faPause } from '@fortawesome/free-solid-svg-icons'
 import '../fonts/Roboto.css'
 import 'leaflet/dist/leaflet.css'
 import '../css/styles.css'
@@ -25,6 +25,7 @@ library.add(faPlay)
 library.add(faCheck)
 library.add(faXmark)
 library.add(faMagnifyingGlass)
+library.add(faPause)
 dom.watch()
 
 // Configuramos Leaflet
