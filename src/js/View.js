@@ -15,6 +15,7 @@ export default class View {
         this.coords.setGetDataLocation(valueSearch => this.model.getDataLocation(valueSearch))
         this.calendar.setGetDataDay((index, day, month, year, widthCanvas, heightCanvas) => this.onData(index, day, month, year, widthCanvas, heightCanvas))
         this.calendar.setOnSelect((day, month, year) => this.onSelect(day, month, year))
+        this.viewer.setGetData((hour, lat, day, month, year) => this.model.getDataSimulator(hour, lat, day, month, year))
     }
 
     setModel(model) {

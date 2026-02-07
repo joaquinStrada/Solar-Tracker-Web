@@ -28,7 +28,8 @@ export default class Viewer {
                 base: null,
                 support: null,
                 panel: null,
-                tracker: null
+                tracker: null,
+                panelPivot: null
             },
             // eslint-disable-next-line no-unused-vars
             getData: (hour, lat, day, month, year) => {},
@@ -172,6 +173,7 @@ export default class Viewer {
         try {
             // Cargamos los modelos
             let tracker = new THREE.Group()
+            let panelPivot = new THREE.Group()
             const baseModel = await loadModel(BaseMTL, BaseOBJ)
             const supportModel = await loadModel(SupportMTL, SupportOBJ)
             const panelModel = await loadModel(PanelMTL, PanelOBJ)
@@ -183,16 +185,30 @@ export default class Viewer {
 
             this.configSimulator.models.base = placeOnGround(this.configSimulator.models.base, 0)
             this.configSimulator.models.support = placeOnGround(this.configSimulator.models.support, 0.018)
-            this.configSimulator.models.panel = placeOnGround(this.configSimulator.models.panel, 90)
 
             // Añadimos los modelos al tracker
             tracker.add(this.configSimulator.models.base)
             tracker.add(this.configSimulator.models.support)
-            tracker.add(this.configSimulator.models.panel)
+
+            // Posicionamos el pivote en la parte superior del soporte
+            const supportBox = new THREE.Box3().setFromObject(this.configSimulator.models.support)
+
+            panelPivot.position.set(
+                supportBox.getCenter(new THREE.Vector3()).x,
+                supportBox.max.y - 45,
+                supportBox.getCenter(new THREE.Vector3).z
+            )
+
+            panelPivot.add(this.configSimulator.models.panel)
+            this.configSimulator.models.panelPivot = panelPivot
+            tracker.add(this.configSimulator.models.panelPivot)
 
             // Configuramos el tracker
             tracker.scale.setScalar(getScaleModel(tracker, 2.25, 'y'))
             tracker = placeOnGround(tracker)
+
+            // Agregamos el tracker a mi config simulator
+            this.configSimulator.models.tracker = tracker
 
             // Cargamos los modelos            
             this.scene.add(tracker)
@@ -211,6 +227,12 @@ export default class Viewer {
     }
 
     animate() {
+        if (this.configSimulator.active && this.configSimulator.play) {
+            const timeSimulator = (new Date().getTime() - this.configSimulator.data.timeInit) % 120000
+            this.updateSimulator(timeSimulator)
+
+        }
+
         this.renderer.render(this.scene, this.camera)
     }
 
@@ -244,7 +266,7 @@ export default class Viewer {
                 <path fill="currentColor" d="M48 32C21.5 32 0 53.5 0 80L0 432c0 26.5 21.5 48 48 48l64 0c26.5 0 48-21.5 48-48l0-352c0-26.5-21.5-48-48-48L48 32zm224 0c-26.5 0-48 21.5-48 48l0 352c0 26.5 21.5 48 48 48l64 0c26.5 0 48-21.5 48-48l0-352c0-26.5-21.5-48-48-48l-64 0z">
                 </path>
                 </svg>`
-            this.configSimulator.data.timeInit = new Date().getTime()
+            this.configSimulator.data.timeInit = new Date().getTime() - parseInt(this.progressSimulator.value)
         } else {
             this.btnPlay.innerHTML = `<svg class="svg-inline--fa fa-play" data-prefix="fas" data-icon="play" role="img" viewBox="0 0 448 512" aria-hidden="true" data-fa-i2svg="">
                 <path fill="currentColor" d="M91.2 36.9c-12.4-6.8-27.4-6.5-39.6 .7S32 57.9 32 72l0 368c0 14.1 7.5 27.2 19.6 34.4s27.2 7.5 39.6 .7l336-184c12.8-7 20.8-20.5 20.8-35.1s-8-28.1-20.8-35.1l-336-184z">
@@ -253,14 +275,38 @@ export default class Viewer {
         }
     }
 
-    updateSimulator() {
-        const value = parseInt(this.progressSimulator.value)
+    updateSimulator(value = parseInt(this.progressSimulator.value)) {
+        this.progressSimulator.value = value
         this.progressText.innerText = `${Math.floor(value / 60000)}:${(
             Math.floor(value / 1000) % 60) < 10 ? `0${Math.floor(value / 1000) % 60}`
         : Math.floor(value / 1000) % 60}/2:00`
         const percent = value * 100 / 120000
         this.progressSimulator.style.background = `linear-gradient(90deg, #0074d9 0 ${percent}%, #ccc ${percent}% 100%)`
+        this.configSimulator.data.timeInit = new Date().getTime() - value
 
         // Simulacion
+        const hour = 24 * value / 120000
+        const { elevation, azimuth } = this.configSimulator.getData(hour, this.configSimulator.data.lat,
+            this.configSimulator.data.day, this.configSimulator.data.month, this.configSimulator.data.year)
+        
+        // Actualizar la pocision del sol
+        this.configSimulator.sun.setFromSphericalCoords(
+            1,
+            THREE.MathUtils.degToRad(90) - elevation,
+            azimuth
+        )
+
+        this.configSimulator.sky.material.uniforms['sunPosition'].value.copy(this.configSimulator.sun)
+
+        // Luz solar
+        this.configSimulator.sunLight.position.copy(this.configSimulator.sun.clone().multiplyScalar(100))
+        
+        // Actualizamos la posicion del solar tracker
+        this.configSimulator.models.panelPivot.rotation.z = elevation
+        this.configSimulator.models.tracker.rotation.y = azimuth
+    }
+
+    setGetData(callback) {
+        this.configSimulator.getData = callback
     }
 }
